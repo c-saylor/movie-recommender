@@ -1,0 +1,17 @@
+@import '../styles/variables.scss';
+
+.credits {
+    color: $text;
+
+    .tmdb-logo {
+        width: 100px;
+        margin-top: 0.5rem;
+        opacity: 0.8;
+        transition: opacity 0.3s ease;
+      
+        &:hover {
+          opacity: 1;
+        }
+      }
+      
+}

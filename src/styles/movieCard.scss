@@ -1,0 +1,139 @@
+@import '../styles/variables.scss';
+
+.movie-card {
+    width: 180px;
+    display: flex;
+    flex-direction: column;
+    background-color: $card-bg;
+    color: $text;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    transition: transform 0.2s;
+    position: relative;
+    justify-content: space-between;
+    min-height: 420px;
+    max-height: 420px;
+    height: 100%;
+    box-sizing: border-box;
+  
+    &:hover {
+      transform: translateY(-5px);
+      .hover-overlay {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+  
+    .poster-container {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 2 / 3; // consistent aspect ratio
+      overflow: hidden;
+      min-height: 225px;
+      max-height: 225px;
+  
+      .poster {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+  
+      .favorite-icon {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        font-size: 1.25rem;
+        color: $yellow;
+        border-radius: 50%;
+        padding: 6px;
+      }
+    }
+  
+    .movie-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 0.75rem;
+      gap: 0.5rem;
+  
+      h4 {
+        font-size: 1rem;
+        margin: 0;
+        line-height: 1.2;
+        height: 2.4em; // two-line max
+        overflow: hidden;
+      }
+  
+      p {
+        font-size: 0.85rem;
+        margin: 0;
+      }
+  
+      .recommended-tag {
+        font-size: 0.75rem;
+        color: $light-grey;
+      }
+      
+      .movie-actions {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        padding: 0.25rem;
+        border-top: .5px solid $medium-grey;
+        margin-top: .5rem;
+    
+        button {
+          background: none;
+          border: none;
+          font-size: 1.2rem;
+          cursor: pointer;
+          color: $medium-grey;
+    
+          &:hover {
+            color: $yellow;
+          }
+
+          .bi-heart-fill, .bi-bookmark-fill, .bi-x-circle-fill { 
+            color: $yellow;
+
+          }
+          i {
+            pointer-events: none;
+          }
+        }
+      }
+
+      button {
+        margin-top: auto;
+        border: none;
+        padding: 0.5rem;
+        border-radius: 6px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.2s;
+
+        &.favorite {
+          background-color: $yellow;
+          color: $black;
+          &:hover {
+            background-color: $yellow-lighter;
+          }
+        }
+
+        &.watchlist {
+          background: transparent;
+          color: $text;
+          border: 1px solid $light-grey;
+          &:hover {
+            background-color: $medium-grey;
+            border: 1px solid $yellow;
+          }
+        }
+
+      }
+    }
+  }
+  

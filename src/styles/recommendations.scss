@@ -1,0 +1,72 @@
+@import '../styles/variables.scss';
+
+.recommendations {
+    padding: 2rem;
+    width: 100vw;
+    min-height: 100vh;
+
+    .recommendation-group {
+        margin-bottom: 2.5rem;
+        margin: 20px auto;
+        h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: $text;
+            padding-left: 2.5rem;
+    
+            .highlight {
+                color: $yellow;
+            }
+        }
+    
+        .movie-card {
+            min-width: 200px;
+        }
+    }
+
+    h2 {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+        text-align: center;
+        color: $text;
+    }
+
+
+}
+
+.empty-recs-wrapper {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: $light-grey;
+
+    h3 {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+        color: $text;
+        padding-left: none;
+    }
+
+    p {
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+        color: $light-grey;
+        max-width: 400px;
+        margin-inline: auto;
+    }
+
+    .btn-primary {
+        display: inline-block;
+        padding: 0.6rem 1.2rem;
+        background-color: $yellow;
+        color: $black;
+        font-weight: 600;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+        border: none;
+
+        &:hover {
+            background-color: $yellow;
+        }
+    }
+}

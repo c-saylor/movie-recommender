@@ -1,0 +1,64 @@
+@import './variables';
+@import '../styles/variables.scss';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+#root, body, html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.app-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: $page-bg;
+}
+
+body {
+  font-family: $font-main;
+  background-color: $page-bg;
+  color: $text;
+  transition: $transition;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.page {
+  min-height: 100vh;
+  background-color: $page-bg;
+  padding: 2rem 0;
+}
+.btn-primary {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  background-color: $yellow;
+  color: #000;
+  font-weight: 600;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+  border: none;
+
+  &:hover {
+      background-color: $yellow-lighter;
+  }
+}

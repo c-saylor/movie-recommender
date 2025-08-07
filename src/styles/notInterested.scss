@@ -1,0 +1,21 @@
+@import '../styles/variables.scss';
+
+.not-interested {
+    padding: 2rem;
+    h2 {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        color: $text;
+    }
+    .empty-message {
+        font-size: 1.2rem;
+        color: $light-grey;
+        text-align: center;
+        margin-top: 2rem;
+    }
+    .not-interested-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 1.5rem;
+    }
+}

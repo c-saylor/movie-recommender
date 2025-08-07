@@ -1,0 +1,46 @@
+@import '../styles/variables.scss';
+
+.login-container {
+    height: 100vh;
+    width: 100vw;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../assets/images/login-background.avif');
+    background-size: cover;
+
+    p {
+        color: $text;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        width: 100%;
+        max-width: 400px;
+        margin: auto;
+
+        input {
+            width: 100%;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+            border-radius: 5px;
+            border: none;
+            font-size: 1rem;
+        }
+
+        button {
+            background-color: $yellow;
+            border: none;
+            color: $black;
+            padding: 0.75rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+
+            &:hover {
+                background-color: darken($yellow, 10%);
+                color: $black;
+            }
+        }
+    }
+}

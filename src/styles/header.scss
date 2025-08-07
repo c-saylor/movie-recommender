@@ -1,0 +1,68 @@
+@import '../styles/variables.scss';
+
+.navbar {
+    background-color: $header-bg;
+
+    .navbar-brand {
+        font-weight: bold;
+        color: $yellow;
+    }
+
+    .navbar-link {
+        color: $medium-grey;
+
+        &:hover {
+            color: $yellow;
+        }
+        &.active {
+            color: $yellow;
+            font-weight: bold;
+        }
+    }
+
+    .search-bar {
+        input {
+            min-width: 180px;
+            background-color: $dark-grey;
+            border: 1px solid $medium-grey;
+            color: $text;
+
+            &::placeholder {
+                color: $light-grey;
+            }
+
+            &:focus {
+                border-color: $yellow;
+                box-shadow: none;
+            }
+        }
+        button {
+            background-color: $yellow;
+            color: $black;
+            border: none;
+
+            &:hover {
+                background-color: darken($yellow, 10%);
+            }
+        }
+    }
+
+    .search-dropdown {
+        position: absolute;
+        top: 100%;
+        max-height: 200px;
+        background: $medium-grey;
+        border: 1px solid $light-grey;
+        z-index: 10;
+        overflow-y: auto;
+        color: $text;
+
+        .dropdown-item {
+            padding: 0.5rem;
+            cursor: pointer;
+            &:hover {
+                background-color: $dark-grey;
+            }
+        }
+    }
+}

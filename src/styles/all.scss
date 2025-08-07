@@ -1,0 +1,71 @@
+@import '../styles/variables.scss';
+
+.all {  
+    h2 {
+      font-size: 1.75rem;
+      margin-bottom: 1rem;
+      color: $text;
+    }
+
+    .controls {
+      display: flex;
+      margin-bottom: 1.5rem;
+      color: $text;
+      justify-content: center;
+
+      .filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        align-items: center;
+        justify-content: center;
+      }
+    
+      select {
+        padding: 0.5rem;
+        font-size: 0.95rem;
+        border-radius: 6px;
+        border: 1px solid $medium-grey;
+        background-color: $dark-grey;
+        color: $text;
+        cursor: pointer;
+        min-width: 160px;
+      }
+      .rating-dropdown {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        
+        select {
+          padding: 0.4rem;
+          border-radius: 6px;
+          font-size: 0.95rem;
+          border: 1px solid $light-grey;
+          cursor: pointer;
+        }
+      }
+      .clear-btn {
+        background-color: $yellow;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background 0.3s;
+
+        &:hover {
+          background-color: $yellow-lighter;
+        }
+      }
+    }
+    .btn-back {
+      margin-bottom: 1rem;
+    }
+
+    .movie-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 1.5rem;
+      align-items: stretch;
+    }
+  }
