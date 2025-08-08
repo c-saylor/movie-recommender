@@ -44,6 +44,8 @@ button {
 
 .page {
   min-height: 100vh;
+  width: 100vw;
+  overflow: hidden;
   background-color: $page-bg;
   padding: 2rem 0;
 }
