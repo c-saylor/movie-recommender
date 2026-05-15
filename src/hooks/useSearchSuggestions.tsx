@@ -1,7 +1,6 @@
 import {useState, useEffect} from 'react';
 import {Movie} from '../interfaces/movie';
-
-const API_KEY = process.env.REACT_APP_TMDB_API_KEY;
+import { TMDB_BASE, tmdbAuth } from '../utils/tmdb';
 
 export const useSearchSuggestions = (query: string) => {
     const [suggestions, setSuggestions] = useState<Movie[]>([]);
@@ -19,8 +18,8 @@ export const useSearchSuggestions = (query: string) => {
             setLoading(true);
             try {
                 const res = await fetch(
-                    `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=en-US&query=${encodeURIComponent(query)}&page=1`,
-                    {signal: controller.signal}
+                    `${TMDB_BASE}/search/movie?language=en-US&query=${encodeURIComponent(query)}&page=1`,
+                    { signal: controller.signal, headers: tmdbAuth }
                 );
                 const data = await res.json();
                 if (data.results) {

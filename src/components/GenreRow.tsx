@@ -4,13 +4,12 @@ import { Movie } from '../interfaces/movie';
 import { ScrollRow } from './ScrollRow';
 import '../styles/genreRow.scss';
 import MovieDetailModal from './MovieDetailModal';
+import { TMDB_BASE, tmdbAuth } from '../utils/tmdb';
 
 interface GenreRowProps {
     genreId: number;
     genreName: string;
 }
-
-const API_KEY = process.env.REACT_APP_TMDB_API_KEY;
 
 export const GenreRow: React.FC<GenreRowProps> = ({ genreId, genreName }) => {
     const [movies, setMovies] = useState<Movie[]>([]);
@@ -34,7 +33,8 @@ export const GenreRow: React.FC<GenreRowProps> = ({ genreId, genreName }) => {
             setLoading(true);
             try {
                 const res = await fetch(
-                    `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=en-US&sort_by=popularity.desc&with_genres=${genreId}&page=${page}`
+                    `${TMDB_BASE}/discover/movie?language=en-US&sort_by=popularity.desc&with_genres=${genreId}&page=${page}`,
+                    { headers: tmdbAuth }
                 );
                 const data = await res.json();
                 setMovies(prev => {

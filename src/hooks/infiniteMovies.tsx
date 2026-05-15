@@ -3,7 +3,7 @@ import { Movie } from '../interfaces/movie';
 import { useUninterested } from '../utils/Uninterested';
 import {genres as genreList} from '../data/genres';
 
-const API_KEY = process.env.REACT_APP_TMDB_API_KEY;
+import { TMDB_BASE, tmdbAuth } from '../utils/tmdb';
 
 interface useInfiniteMoviesOptions {
   query?: string;
@@ -43,12 +43,12 @@ export const useInfiniteMovies = ({query = ''}: useInfiniteMoviesOptions = {}) =
     const fetchMovies = async () => {
       setLoading(true);
 
-      const baseUrl = query ? `https://api.themoviedb.org/3/search/movie` : `https://api.themoviedb.org/3/discover/movie`;
+      const baseUrl = query ? `${TMDB_BASE}/search/movie` : `${TMDB_BASE}/discover/movie`;
 
-      const url = `${baseUrl}?api_key=${API_KEY}&language=en-US&page=${page}${query ? `&query=${encodeURIComponent(query)}` : '&sort_by=popularity.desc'}`;
+      const url = `${baseUrl}?language=en-US&page=${page}${query ? `&query=${encodeURIComponent(query)}` : '&sort_by=popularity.desc'}`;
 
       try {
-        const res = await fetch(url, {signal: controller.signal});
+        const res = await fetch(url, { signal: controller.signal, headers: tmdbAuth });
         const data = await res.json();
 
         if (data.results && data.results.length > 0) {

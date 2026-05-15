@@ -7,7 +7,7 @@ import { useUninterested } from '../utils/Uninterested';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Container } from 'react-bootstrap';
 
-const API_KEY = process.env.REACT_APP_TMDB_API_KEY;
+import { TMDB_BASE, tmdbAuth } from '../utils/tmdb';
 
 interface MovieDetailModalProps {
     isOpen: boolean;
@@ -29,7 +29,8 @@ const MovieDetailModal: React.FC<MovieDetailModalProps> = ({ isOpen, movieId, on
             setLoading(true);
             try {
                 const res = await fetch(
-                    `https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}&language=en-US`
+                    `${TMDB_BASE}/movie/${movieId}?language=en-US`,
+                    { headers: tmdbAuth }
                 );
                 const data = await res.json();
                 setMovie(data);

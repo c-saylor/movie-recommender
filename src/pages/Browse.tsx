@@ -10,7 +10,7 @@ import MovieDetailModal from '../components/MovieDetailModal';
 import { useUninterested } from '../utils/Uninterested';
 import '../styles/browse.scss';
 
-const API_KEY = process.env.REACT_APP_TMDB_API_KEY;
+import { TMDB_BASE, tmdbAuth } from '../utils/tmdb';
 
 const Browse: React.FC = () => {
     const [movies, setMovies] = useState<Movie[]>([]);
@@ -46,10 +46,12 @@ const Browse: React.FC = () => {
             setLoading(true);
             try {
                 const res = await fetch(
-                    `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=en-US&page=${page}`
+                    `${TMDB_BASE}/movie/popular?language=en-US&page=${page}`,
+                    { headers: tmdbAuth }
                 );
 
                 const data = await res.json();
+                if (!data.results) return;
                 setMovies(prev => {
                     const combined = [...prev, ...data.results.map((movie: any) => ({
                         id: movie.id,

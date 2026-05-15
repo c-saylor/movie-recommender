@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 import {Movie} from '../interfaces/movie';
-const API_KEY = process.env.REACT_APP_TMDB_API_KEY;
+import { TMDB_BASE, tmdbAuth } from '../utils/tmdb';
 
 export const useMovieDetails = (movieIds: number[]) => {
     const [movies, setMovies] = useState<Movie[]>([]);
@@ -20,7 +20,7 @@ export const useMovieDetails = (movieIds: number[]) => {
             try {
                 const results = await Promise.all(movieIds.map(async (id) => {
 
-                    const res = await fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}`);
+                    const res = await fetch(`${TMDB_BASE}/movie/${id}?language=en-US`, { headers: tmdbAuth });
                     if (!res.ok) throw new Error(`Failed to fetch movie ${id}`);
                     return await res.json();
                 }));
