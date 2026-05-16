@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import {useNavigate} from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Navbar, Container, Nav, Form, FormControl, Button, NavDropdown } from 'react-bootstrap';
 import { useAuth } from '../utils/Auth';
 import { useSearchSuggestions } from '../hooks/useSearchSuggestions';
@@ -11,7 +11,8 @@ const Header: React.FC = () => {
     const {suggestions} = useSearchSuggestions(searchQuery);
     const dropDownRef = useRef<HTMLDivElement>(null)
     const navigate = useNavigate();
-    const {logout} = useAuth(); 
+    const location = useLocation();
+    const {logout} = useAuth();
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -52,11 +53,11 @@ const Header: React.FC = () => {
                 <Navbar.Toggle aria-controls="main-navbar" />
                 <Navbar.Collapse id="main-navbar">
                     <Nav className="ms-auto">
-                        <Nav.Link href="/" className={window.location.pathname === '/' ? 'active' : ''}>Home</Nav.Link>
-                        <Nav.Link href="/browse" className={window.location.pathname === '/browse' ? 'active' : ''}>Browse</Nav.Link>
-                        <Nav.Link href="/recommendations" className={window.location.pathname === '/recommendations' ? 'active' : ''}>Recommendations</Nav.Link>
-                        <Nav.Link href="/all" className={window.location.pathname === '/all' ? 'active' : ''}>All Movies</Nav.Link>
-                        <Nav.Link href="/credits" className={window.location.pathname === '/credits' ? 'active' : ''}>Credits</Nav.Link>
+                        <Nav.Link href="/" className={location.pathname === '/' ? 'active' : ''}>Home</Nav.Link>
+                        <Nav.Link href="/browse" className={location.pathname === '/browse' ? 'active' : ''}>Browse</Nav.Link>
+                        <Nav.Link href="/recommendations" className={location.pathname === '/recommendations' ? 'active' : ''}>Recommendations</Nav.Link>
+                        <Nav.Link href="/all" className={location.pathname === '/all' ? 'active' : ''}>All Movies</Nav.Link>
+                        <Nav.Link href="/credits" className={location.pathname === '/credits' ? 'active' : ''}>Credits</Nav.Link>
                         <NavDropdown title={<i className="bi bi-person-circle"/>} id="basic-nav-dropdown">
                             <NavDropdown.Item href="/favorites">
                                 Favorites

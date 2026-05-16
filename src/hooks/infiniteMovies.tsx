@@ -71,6 +71,7 @@ export const useInfiniteMovies = ({query = ''}: useInfiniteMoviesOptions = {}) =
     };
 
     fetchMovies();
+    return () => controller.abort();
   }, [page, uninterested, query]);
 
   return { movies, loading, lastMovieRef };

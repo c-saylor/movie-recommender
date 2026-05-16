@@ -37,6 +37,7 @@ export const GenreRow: React.FC<GenreRowProps> = ({ genreId, genreName }) => {
                     { headers: tmdbAuth }
                 );
                 const data = await res.json();
+                if (!data.results) return;
                 setMovies(prev => {
                     const combined = [...prev, ...data.results.map((movie: any) => ({
                         id: movie.id,

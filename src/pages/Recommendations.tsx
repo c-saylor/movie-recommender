@@ -172,11 +172,12 @@ export const Recommendations: React.FC = () => {
       const combined = new Map<number, Movie>();
 
       try {
-        await Promise.all(
+        await Promise.allSettled(
           favorites.map(async (movieId) => {
             const detRes = await fetch(`${TMDB_BASE}/movie/${movieId}?language=en-US`, { headers: tmdbAuth });
             const det = await detRes.json();
             const sourceTitle: string = det.title;
+            if (!sourceTitle) return;
 
             const [simRes, recRes] = await Promise.all([
               fetch(`${TMDB_BASE}/movie/${movieId}/similar?language=en-US&page=1`, { headers: tmdbAuth }),
@@ -184,15 +185,17 @@ export const Recommendations: React.FC = () => {
             ]);
 
             const simData = await simRes.json();
-            const unique: Movie[] = simData.results.filter((r: Movie) => {
-              if (seenIds.has(r.id) || favorites.includes(r.id)) return false;
-              seenIds.add(r.id);
-              return true;
-            });
-            if (unique.length > 0) grouped[sourceTitle] = unique;
+            if (simData.results) {
+              const unique: Movie[] = simData.results.filter((r: Movie) => {
+                if (seenIds.has(r.id) || favorites.includes(r.id)) return false;
+                seenIds.add(r.id);
+                return true;
+              });
+              if (unique.length > 0) grouped[sourceTitle] = unique;
+            }
 
             const recData = await recRes.json();
-            recData.results.forEach((r: Movie) => {
+            recData.results?.forEach((r: Movie) => {
               if (!favorites.includes(r.id) && !combined.has(r.id)) combined.set(r.id, r);
             });
           })

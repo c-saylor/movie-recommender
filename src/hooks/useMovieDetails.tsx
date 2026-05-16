@@ -18,13 +18,16 @@ export const useMovieDetails = (movieIds: number[]) => {
             setError(null);
 
             try {
-                const results = await Promise.all(movieIds.map(async (id) => {
-
+                const results = await Promise.allSettled(movieIds.map(async (id) => {
                     const res = await fetch(`${TMDB_BASE}/movie/${id}?language=en-US`, { headers: tmdbAuth });
                     if (!res.ok) throw new Error(`Failed to fetch movie ${id}`);
-                    return await res.json();
+                    return await res.json() as Movie;
                 }));
-                setMovies(results.filter((m): m is Movie => m !== null));
+                setMovies(
+                    results
+                        .filter((r): r is PromiseFulfilledResult<Movie> => r.status === 'fulfilled')
+                        .map((r) => r.value)
+                );
             } catch (err) {
                 console.error('Failed to fetch movie details: ', err);
                 setError(err as Error);

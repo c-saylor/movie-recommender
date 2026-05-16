@@ -105,9 +105,9 @@ const Browse: React.FC = () => {
                                 />
                             ))}
                             {loading && <div className="loading">Loading...</div>}
-                            {/* <button type="button" className="load-more" onClick={handleLoadMore} disabled={loading}>
+                            <button type="button" className="load-more" onClick={handleLoadMore} disabled={loading}>
                                 {loading ? <i className="bi bi-hourglass-top" /> : <i className="bi bi-plus-lg" />}
-                            </button> */}
+                            </button>
                         </ScrollRow>
                         <MovieDetailModal isOpen={showModal} movieId={selectedMovieId} onClose={() => closeMovieDetail()} />
                         {genres.map((genre) => (
