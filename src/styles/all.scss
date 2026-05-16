@@ -67,5 +67,24 @@
       grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
       gap: 1.5rem;
       align-items: stretch;
+
+      @media (max-width: 480px) {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .controls {
+        .filters {
+          flex-direction: column;
+          align-items: stretch;
+          width: 100%;
+        }
+        select {
+          min-width: unset;
+          width: 100%;
+        }
+      }
     }
   }

@@ -51,79 +51,66 @@ const MovieDetailModal: React.FC<MovieDetailModalProps> = ({ isOpen, movieId, on
         return () => window.removeEventListener('keydown', handleEsc);
     }, [onClose]);
 
-    if (loading) return (
-        <div className="modal-overlay">
-            <div className="modal-content">Loading...</div>
-        </div>
-    );
-
-    if (!movie) return null;
-
-    const isFavorited = favorites.includes(movie.id);
-    const isInWatchlist = watchlist.includes(movie.id);
-    const isInUninterested = uninterested.includes(movie.id);
+    const isFavorited = movie ? favorites.includes(movie.id) : false;
+    const isInWatchlist = movie ? watchlist.includes(movie.id) : false;
+    const isInUninterested = movie ? uninterested.includes(movie.id) : false;
 
     return (
         <AnimatePresence>
-            {isOpen && movie ? (
+            {isOpen && (
                 <motion.div className="modal-overlay" onClick={onClose} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
                     <Container className="justify-content-center">
                         <motion.div className="modal-content" onClick={e => e.stopPropagation()} initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.95, opacity: 0 }} transition={{ duration: 0.2, ease: 'easeInOut' }}>
-                            <motion.button className="close-button" onClick={onClose} initial={{ opacity: 0, scale: 0.5, rotate: -90 }} animate={{ opacity: 1, scale: 1, rotate: 0 }} exit={{ opacity: 0, scale: 0.5, rotate: 0 }} transition={{ duration: 0.3, ease: 'easeOut' }} whileHover={{ scale: 1.2, rotate: 15 }} whileTap={{ scale: 0.9 }}><i className="bi bi-x-lg" /></motion.button>
-                            <div className="modal-body">
-                                <img
-                                    className="modal-poster"
-                                    src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                                    alt={movie.title}
-                                />
-
-                                <div className="modal-info">
-                                    <h2>{movie.title}</h2>
-                                    <div className="genre-tags">
-                                    {movie.genres?.map((genre) => (
-                                        <span key={genre.id} className="genre-tag">{genre.name}</span>
-                                    ))}
+                            {loading ? (
+                                <div className="modal-loading">Loading...</div>
+                            ) : movie ? (
+                                <>
+                                    <motion.button className="close-button" onClick={onClose} initial={{ opacity: 0, scale: 0.5, rotate: -90 }} animate={{ opacity: 1, scale: 1, rotate: 0 }} exit={{ opacity: 0, scale: 0.5, rotate: 0 }} transition={{ duration: 0.3, ease: 'easeOut' }} whileHover={{ scale: 1.2, rotate: 15 }} whileTap={{ scale: 0.9 }}><i className="bi bi-x-lg" /></motion.button>
+                                    <div className="modal-body">
+                                        <img
+                                            className="modal-poster"
+                                            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                                            alt={movie.title}
+                                        />
+                                        <div className="modal-info">
+                                            <h2>{movie.title}</h2>
+                                            <div className="genre-tags">
+                                                {movie.genres?.map((genre) => (
+                                                    <span key={genre.id} className="genre-tag">{genre.name}</span>
+                                                ))}
+                                            </div>
+                                            <p className="meta">
+                                                <i className="bi bi-star-fill" /> {movie.vote_average ? movie.vote_average.toFixed(1) : null} • {movie.release_date}
+                                            </p>
+                                            <p className="overview">{movie.overview}</p>
+                                            <div className="modal-actions">
+                                                <button
+                                                    className={`btn ${isFavorited ? 'btn-danger' : 'btn-primary'}`}
+                                                    onClick={() => isFavorited ? removeFavorite(movie.id) : addFavorite(movie.id)}
+                                                >
+                                                    {isFavorited ? 'Remove from Favorites' : 'Add to Favorites'}
+                                                </button>
+                                                <button
+                                                    className={`btn ${isInWatchlist ? 'btn-secondary' : 'btn-outline'}`}
+                                                    onClick={() => isInWatchlist ? removeFromWatchlist(movie.id) : addToWatchlist(movie.id)}
+                                                >
+                                                    {isInWatchlist ? 'Remove from Watchlist' : 'Add to Watchlist'}
+                                                </button>
+                                                <button
+                                                    className={`btn ${isInUninterested ? 'btn-secondary' : 'btn-outline'}`}
+                                                    onClick={() => isInUninterested ? removeFromUninterested(movie.id) : addToUninterested(movie.id)}
+                                                >
+                                                    {isInUninterested ? 'Remove from "Not Interested"' : 'Not Interested'}
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <p className="meta">
-                                        <i className="bi bi-star-fill" /> {movie.vote_average ? movie.vote_average.toFixed(1) : null} • {movie.release_date}
-                                    </p>
-                                    <p className="overview">{movie.overview}</p>
-
-                                    <div className="modal-actions">
-                                        <button
-                                            className={`btn ${isFavorited ? 'btn-danger' : 'btn-primary'}`}
-                                            onClick={() =>
-                                                isFavorited ? removeFavorite(movie.id) : addFavorite(movie.id)
-                                            }
-                                        >
-                                            {isFavorited ? 'Remove from Favorites' : 'Add to Favorites'}
-                                        </button>
-
-                                        <button
-                                            className={`btn ${isInWatchlist ? 'btn-secondary' : 'btn-outline'}`}
-                                            onClick={() =>
-                                                isInWatchlist ? removeFromWatchlist(movie.id) : addToWatchlist(movie.id)
-                                            }
-                                        >
-                                            {isInWatchlist ? 'Remove from Watchlist' : 'Add to Watchlist'}
-                                        </button>
-                                        <button
-                                            className={`btn ${isInUninterested ? 'btn-secondary' : 'btn-outline'}`}
-                                            onClick={() =>
-                                                isInUninterested ? removeFromUninterested(movie.id) : addToUninterested(movie.id)
-                                            }
-                                        >
-                                            {isInUninterested ? 'Remove from "Not Interested"' : 'Not Interested'}
-                                        </button>
-
-                                    </div>
-                                </div>
-                            </div>
+                                </>
+                            ) : null}
                         </motion.div>
                     </Container>
-
                 </motion.div>
-            ) : null}
+            )}
         </AnimatePresence>
     );
 };

@@ -95,6 +95,15 @@
     line-height: 1.5;
   }
   
+  .modal-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 220px;
+    color: $light-grey;
+    font-size: 1rem;
+  }
+
   .modal-actions {
     display: flex;
     gap: 1rem;
