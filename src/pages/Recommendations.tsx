@@ -141,6 +141,7 @@ export const Recommendations: React.FC = () => {
   const [streamingText, setStreamingText] = useState('');
   const [aiResults, setAiResults] = useState<EnrichedSuggestion[]>([]);
   const [aiError, setAiError] = useState<string | null>(null);
+  const [showInputPanel, setShowInputPanel] = useState(true);
 
   // useMemo prevents new array references on every render, which would cause
   // useMovieDetails to re-fetch on every render cycle (infinite loop)
@@ -298,6 +299,7 @@ export const Recommendations: React.FC = () => {
 
       setAiResults(enriched);
       setAiPhase('results');
+      setShowInputPanel(false);
     } catch (err) {
       setAiError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
       setAiPhase('input');
@@ -341,34 +343,37 @@ export const Recommendations: React.FC = () => {
             </div>
           )}
 
-          {/* Mood tags */}
-          <div className="mood-tags">
-            {MOOD_TAGS.map((tag) => (
-              <button
-                key={tag}
-                className={`mood-tag${selectedMoods.includes(tag) ? ' mood-tag--selected' : ''}`}
-                onClick={() => toggleMood(tag)}
-                disabled={aiPhase === 'streaming'}
-              >
-                {tag}
-              </button>
-            ))}
-          </div>
+          {/* Mood tags + text input — hidden when results are showing */}
+          {(aiPhase !== 'results' || showInputPanel) && (
+            <>
+              <div className="mood-tags">
+                {MOOD_TAGS.map((tag) => (
+                  <button
+                    key={tag}
+                    className={`mood-tag${selectedMoods.includes(tag) ? ' mood-tag--selected' : ''}`}
+                    onClick={() => toggleMood(tag)}
+                    disabled={aiPhase === 'streaming'}
+                  >
+                    {tag}
+                  </button>
+                ))}
+              </div>
 
-          {/* Conversational input */}
-          <div className="conversational-input">
-            <textarea
-              value={conversationalInput}
-              onChange={(e) => setConversationalInput(e.target.value)}
-              placeholder="Describe what you're in the mood for... (e.g. something like Parasite but funnier)"
-              rows={3}
-              disabled={aiPhase === 'streaming'}
-            />
-          </div>
+              <div className="conversational-input">
+                <textarea
+                  value={conversationalInput}
+                  onChange={(e) => setConversationalInput(e.target.value)}
+                  placeholder="Describe what you're in the mood for... (e.g. something like Parasite but funnier)"
+                  rows={3}
+                  disabled={aiPhase === 'streaming'}
+                />
+              </div>
+            </>
+          )}
 
           {aiError && <p className="ai-error">{aiError}</p>}
 
-          {aiPhase === 'input' && (
+          {(aiPhase === 'input' || (aiPhase === 'results' && showInputPanel)) && (
             <button
               className="btn btn-primary find-btn"
               onClick={handleAIRecommend}
@@ -396,9 +401,14 @@ export const Recommendations: React.FC = () => {
             <>
               <div className="ai-results-header">
                 <h3>Your personalized picks</h3>
-                <button className="ai-try-again-btn" onClick={resetAI}>
-                  Try again
-                </button>
+                <div className="ai-results-actions">
+                  <button className="ai-try-again-btn" onClick={() => setShowInputPanel(p => !p)}>
+                    {showInputPanel ? 'Hide options' : 'Refine search'}
+                  </button>
+                  <button className="ai-try-again-btn" onClick={resetAI}>
+                    Try again
+                  </button>
+                </div>
               </div>
               <div className="ai-results-grid">
                 {aiResults.map((rec, i) =>

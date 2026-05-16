@@ -60,8 +60,9 @@
         .dropdown-item {
             padding: 0.5rem;
             cursor: pointer;
-            &:hover {
+            &:hover, &.active {
                 background-color: $dark-grey;
+                color: $yellow;
             }
         }
     }

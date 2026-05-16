@@ -1,0 +1,39 @@
+@import './variables';
+
+.toast-stack {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  pointer-events: none;
+}
+
+.toast-pill {
+  background: $dark-grey-2;
+  color: $text;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-family: $font-main;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+  border-left: 3px solid $yellow;
+  animation: toast-in 0.2s ease;
+
+  &--remove {
+    border-left-color: $medium-grey;
+  }
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateX(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}

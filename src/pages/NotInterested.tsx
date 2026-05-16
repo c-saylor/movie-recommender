@@ -2,14 +2,15 @@ import React from 'react';
 
 import { useUninterested } from '../utils/Uninterested';
 import { useMovieDetails } from '../hooks/useMovieDetails';
-import {MovieCard} from '../components/MovieCard';
+import { MovieCard } from '../components/MovieCard';
+import { SkeletonCard } from '../components/SkeletonCard';
 import '../styles/notInterested.scss';
 import { Container } from 'react-bootstrap';
 import MovieDetailModal from '../components/MovieDetailModal';
 
 const NotInterested: React.FC = () => {
-    const {uninterested} = useUninterested();
-    const {movies: detailedUninterested} = useMovieDetails(uninterested);
+    const { uninterested } = useUninterested();
+    const { movies: detailedUninterested, loading } = useMovieDetails(uninterested);
     const [selectedMovieId, setSelectedMovieId] = React.useState<number | null>(null);
     const [showModal, setShowModal] = React.useState(false);
 
@@ -26,8 +27,12 @@ const NotInterested: React.FC = () => {
         <section className="not-interested page">
             <Container>
                 <h2>Not Interested</h2>
-                {detailedUninterested.length === 0 ? (
+                {uninterested.length === 0 ? (
                     <p className="empty-message">You haven’t marked anything as not interested yet.</p>
+                ) : loading ? (
+                    <div className="not-interested-grid">
+                        {uninterested.map((id) => <SkeletonCard key={id} />)}
+                    </div>
                 ) : (
                     <div className="not-interested-grid">
                         {detailedUninterested.map((movie) => (

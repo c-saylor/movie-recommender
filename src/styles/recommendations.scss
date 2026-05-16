@@ -324,6 +324,11 @@
     }
 }
 
+.ai-results-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
 .ai-try-again-btn {
     background: transparent;
     border: 1px solid rgba($medium-grey, 0.7);

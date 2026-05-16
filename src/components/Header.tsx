@@ -8,6 +8,7 @@ import '../styles/header.scss';
 const Header: React.FC = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [showDropdown, setShowDropdown] = useState(false);
+    const [activeIndex, setActiveIndex] = useState(-1);
     const {suggestions} = useSearchSuggestions(searchQuery);
     const dropDownRef = useRef<HTMLDivElement>(null)
     const navigate = useNavigate();
@@ -20,6 +21,7 @@ const Header: React.FC = () => {
         navigate(`/all?query=${encodeURIComponent(searchQuery.trim())}`);
         setSearchQuery('');
         setShowDropdown(false);
+        setActiveIndex(-1);
     }
 
     const handleSelectSuggestion = (title: string) => {
@@ -27,6 +29,31 @@ const Header: React.FC = () => {
         navigate(`/all?query=${encodeURIComponent(title.trim())}`);
         setSearchQuery('');
         setShowDropdown(false);
+        setActiveIndex(-1);
+    }
+
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (!showDropdown || !suggestions.length) return;
+        switch (e.key) {
+            case 'ArrowDown':
+                e.preventDefault();
+                setActiveIndex(i => Math.min(i + 1, suggestions.length - 1));
+                break;
+            case 'ArrowUp':
+                e.preventDefault();
+                setActiveIndex(i => Math.max(i - 1, 0));
+                break;
+            case 'Enter':
+                if (activeIndex >= 0) {
+                    e.preventDefault();
+                    handleSelectSuggestion(suggestions[activeIndex].title);
+                }
+                break;
+            case 'Escape':
+                setShowDropdown(false);
+                setActiveIndex(-1);
+                break;
+        }
     }
 
     const handleLogout = () => {
@@ -76,19 +103,26 @@ const Header: React.FC = () => {
                     </Nav>
 
                     <Form className="d-flex search-bar" onSubmit={handleSubmit}>
-                        <FormControl 
-                            type="search" 
-                            placeholder="Search movies..." 
-                            className="me-2" aria-label="Search" 
-                            value={searchQuery} 
-                            onBlur={() => setTimeout(() => setShowDropdown(false), 150)}
-                            onChange={(e) => {setSearchQuery(e.target.value); setShowDropdown(true);}} 
+                        <FormControl
+                            type="search"
+                            placeholder="Search movies..."
+                            className="me-2"
+                            aria-label="Search"
+                            aria-autocomplete="list"
+                            value={searchQuery}
+                            onBlur={() => setTimeout(() => { setShowDropdown(false); setActiveIndex(-1); }, 150)}
+                            onChange={(e) => { setSearchQuery(e.target.value); setShowDropdown(true); setActiveIndex(-1); }}
+                            onKeyDown={handleKeyDown}
                         />
                         <Button variant="warning" type="submit">Search</Button>
                         {showDropdown && suggestions.length > 0 && (
                             <div className="search-dropdown" ref={dropDownRef}>
-                                {suggestions.map((movie) => (
-                                    <div key={movie.id} className="dropdown-item" onClick={() => handleSelectSuggestion(movie.title)}>
+                                {suggestions.map((movie, index) => (
+                                    <div
+                                        key={movie.id}
+                                        className={`dropdown-item${index === activeIndex ? ' active' : ''}`}
+                                        onClick={() => handleSelectSuggestion(movie.title)}
+                                    >
                                         {movie.title}
                                     </div>
                                 ))}

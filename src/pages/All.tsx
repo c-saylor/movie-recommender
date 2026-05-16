@@ -109,6 +109,18 @@ const All: React.FC = () => {
                         <i className="bi bi-chevron-left"/>All Movies
                     </button>
                 )}
+                {!loading && filteredAndSortedMovies.length === 0 && (
+                    <div className="empty-state">
+                        <p>{searchQuery ? `No results found for "${searchQuery}".` : 'No movies match your current filters.'}</p>
+                        {!searchQuery && (
+                            <button className="clear-btn" onClick={() => {
+                                setSelectedGenre('all');
+                                setMinRating(0);
+                                setSortOption('title-asc');
+                            }}>Clear Filters</button>
+                        )}
+                    </div>
+                )}
                 <div className="movie-grid">
                     {filteredAndSortedMovies.map((movie, index) => {
                         const isLast = index === movies.length - 1;

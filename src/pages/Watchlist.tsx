@@ -2,6 +2,7 @@ import React from 'react';
 import { Container } from 'react-bootstrap';
 import { useWatchlist } from '../utils/Watchlist';
 import { MovieCard } from '../components/MovieCard';
+import { SkeletonCard } from '../components/SkeletonCard';
 import { useMovieDetails } from '../hooks/useMovieDetails';
 import '../styles/watchlist.scss';
 import MovieDetailModal from '../components/MovieDetailModal';
@@ -9,7 +10,7 @@ import MovieDetailModal from '../components/MovieDetailModal';
 
 const Watchlist: React.FC = () => {
     const { watchlist } = useWatchlist();
-    const {movies: detailedWatchlist} = useMovieDetails(watchlist);
+    const { movies: detailedWatchlist, loading } = useMovieDetails(watchlist);
     const [selectedMovieId, setSelectedMovieId] = React.useState<number | null>(null);
     const [showModal, setShowModal] = React.useState(false);
 
@@ -27,8 +28,12 @@ const Watchlist: React.FC = () => {
         <section className="watchlist page">
             <Container>
                 <h2>Watchlist</h2>
-                {detailedWatchlist.length === 0 ? (
+                {watchlist.length === 0 ? (
                     <p className="empty-message">You haven’t added anything to your watchlist yet.</p>
+                ) : loading ? (
+                    <div className="watchlist-grid">
+                        {watchlist.map((id) => <SkeletonCard key={id} />)}
+                    </div>
                 ) : (
                     <div className="watchlist-grid">
                         {detailedWatchlist.map((movie) => (
