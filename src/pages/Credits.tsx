@@ -15,7 +15,7 @@ const Credits: React.FC = () => {
                 rel="noopener noreferrer"
                 aria-label="TMDB"
             >
-                <img src={tmdbLogo} alt="TMDB logo" className="tmdb-logo"/>
+                <img src={tmdbLogo} alt="TMDB logo" className="tmdb-logo" width="190" height="82" />
             </a>
             </Container>
         </section>

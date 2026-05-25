@@ -85,7 +85,7 @@ const Header: React.FC = () => {
                         <Nav.Link href="/recommendations" className={location.pathname === '/recommendations' ? 'active' : ''}>Recommendations</Nav.Link>
                         <Nav.Link href="/all" className={location.pathname === '/all' ? 'active' : ''}>All Movies</Nav.Link>
                         <Nav.Link href="/credits" className={location.pathname === '/credits' ? 'active' : ''}>Credits</Nav.Link>
-                        <NavDropdown title={<i className="bi bi-person-circle"/>} id="basic-nav-dropdown">
+                        <NavDropdown title={<><i className="bi bi-person-circle" aria-hidden="true" /><span className="visually-hidden">Account menu</span></>} id="basic-nav-dropdown">
                             <NavDropdown.Item href="/favorites">
                                 Favorites
                             </NavDropdown.Item>

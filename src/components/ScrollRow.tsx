@@ -51,16 +51,16 @@ export const ScrollRow = forwardRef<ScrollRowHandle, ScrollRowProps>(({ children
             {title && <h2 className="scroll-title">{title}</h2>}
             <div className="scroll-wrapper">
                 {showLeftArrow && (
-                    <button className="scroll-button left" onClick={() => scrollBy(-scrollRef.current!.clientWidth * 0.8)}>
-                        <i className="bi bi-chevron-left"></i>
+                    <button className="scroll-button left" aria-label="Scroll left" onClick={() => scrollBy(-scrollRef.current!.clientWidth * 0.8)}>
+                        <i className="bi bi-chevron-left" aria-hidden="true"></i>
                     </button>
                 )}
                 <div className="scroll-container" ref={scrollRef} onScroll={handleScroll}>
                     {children}
                 </div>
                 {showRightArrow && (
-                    <button className="scroll-button right" onClick={() => scrollBy(scrollRef.current!.clientWidth * 0.8)}>
-                        <i className="bi bi-chevron-right"></i>
+                    <button className="scroll-button right" aria-label="Scroll right" onClick={() => scrollBy(scrollRef.current!.clientWidth * 0.8)}>
+                        <i className="bi bi-chevron-right" aria-hidden="true"></i>
                     </button>
                 )}
                 <div className="gradient-left" />
