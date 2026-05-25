@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './utils/Auth';
 import { FavoritesProvider } from './utils/Favorites';
@@ -5,18 +6,21 @@ import { WatchlistProvider } from './utils/Watchlist';
 import { UninterestedProvider } from './utils/Uninterested';
 import { ToastProvider } from './utils/Toast';
 import Header from './components/Header';
-import Home from './pages/Home';
-import Login from './pages/Login';
-import Browse from './pages/Browse';
-import All from './pages/All';
-import Favorites from './pages/Favorites';
-import Watchlist from './pages/Watchlist';
-import NotInterested from './pages/NotInterested';
-import Credits from './pages/Credits';
-import { Recommendations } from './pages/Recommendations';
 import './App.css';
 import './styles/base.scss';
 import 'bootstrap-icons/font/bootstrap-icons.css';
+
+const Home = lazy(() => import('./pages/Home'));
+const Login = lazy(() => import('./pages/Login'));
+const Browse = lazy(() => import('./pages/Browse'));
+const All = lazy(() => import('./pages/All'));
+const Favorites = lazy(() => import('./pages/Favorites'));
+const Watchlist = lazy(() => import('./pages/Watchlist'));
+const NotInterested = lazy(() => import('./pages/NotInterested'));
+const Credits = lazy(() => import('./pages/Credits'));
+const Recommendations = lazy(() =>
+  import('./pages/Recommendations').then((m) => ({ default: m.Recommendations }))
+);
 
 function App() {
   return (
@@ -28,17 +32,21 @@ function App() {
               <ToastProvider>
                 <Router>
                   <Header />
-                  <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/recommendations" element={<Recommendations />} />
-                    <Route path="/browse" element={<Browse />} />
-                    <Route path="/all" element={<All />} />
-                    <Route path="/credits" element={<Credits />} />
-                    <Route path="/favorites" element={<Favorites />} />
-                    <Route path="/watchlist" element={<Watchlist />} />
-                    <Route path="/not-interested" element={<NotInterested />} />
-                  </Routes>
+                  <main>
+                    <Suspense fallback={<div style={{ padding: '2rem', textAlign: 'center', color: '#fff' }}>Loading...</div>}>
+                      <Routes>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/recommendations" element={<Recommendations />} />
+                        <Route path="/browse" element={<Browse />} />
+                        <Route path="/all" element={<All />} />
+                        <Route path="/credits" element={<Credits />} />
+                        <Route path="/favorites" element={<Favorites />} />
+                        <Route path="/watchlist" element={<Watchlist />} />
+                        <Route path="/not-interested" element={<NotInterested />} />
+                      </Routes>
+                    </Suspense>
+                  </main>
                 </Router>
               </ToastProvider>
             </UninterestedProvider>

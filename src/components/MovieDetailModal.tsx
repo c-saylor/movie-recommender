@@ -65,12 +65,15 @@ const MovieDetailModal: React.FC<MovieDetailModalProps> = ({ isOpen, movieId, on
                                 <div className="modal-loading">Loading...</div>
                             ) : movie ? (
                                 <>
-                                    <motion.button className="close-button" onClick={onClose} initial={{ opacity: 0, scale: 0.5, rotate: -90 }} animate={{ opacity: 1, scale: 1, rotate: 0 }} exit={{ opacity: 0, scale: 0.5, rotate: 0 }} transition={{ duration: 0.3, ease: 'easeOut' }} whileHover={{ scale: 1.2, rotate: 15 }} whileTap={{ scale: 0.9 }}><i className="bi bi-x-lg" /></motion.button>
+                                    <motion.button className="close-button" aria-label="Close" onClick={onClose} initial={{ opacity: 0, scale: 0.5, rotate: -90 }} animate={{ opacity: 1, scale: 1, rotate: 0 }} exit={{ opacity: 0, scale: 0.5, rotate: 0 }} transition={{ duration: 0.3, ease: 'easeOut' }} whileHover={{ scale: 1.2, rotate: 15 }} whileTap={{ scale: 0.9 }}><i className="bi bi-x-lg" aria-hidden="true" /></motion.button>
                                     <div className="modal-body">
                                         <img
                                             className="modal-poster"
                                             src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                                             alt={movie.title}
+                                            width="500"
+                                            height="750"
+                                            decoding="async"
                                         />
                                         <div className="modal-info">
                                             <h2>{movie.title}</h2>

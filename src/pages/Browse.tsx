@@ -105,8 +105,8 @@ const Browse: React.FC = () => {
                                 />
                             ))}
                             {loading && <div className="loading">Loading...</div>}
-                            <button type="button" className="load-more" onClick={handleLoadMore} disabled={loading}>
-                                {loading ? <i className="bi bi-hourglass-top" /> : <i className="bi bi-plus-lg" />}
+                            <button type="button" className="load-more" aria-label={loading ? 'Loading more movies' : 'Load more movies'} onClick={handleLoadMore} disabled={loading}>
+                                {loading ? <i className="bi bi-hourglass-top" aria-hidden="true" /> : <i className="bi bi-plus-lg" aria-hidden="true" />}
                             </button>
                         </ScrollRow>
                         <MovieDetailModal isOpen={showModal} movieId={selectedMovieId} onClose={() => closeMovieDetail()} />
